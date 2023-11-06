@@ -8,10 +8,10 @@
   </head>
   <body class="bg-neutral-100 grid place-items-center min-h-screen p-4">
     <main
-      class="flex flex-col items-center justify-center min-h-screen gap-4 max-w-mobile"
+      class="flex flex-col items-center justify-center min-h-screen gap-4 w-full max-w-mobile"
     >
       <header
-        class="p-5 bg-primary flex items-center justify-between w-full rounded-lg lg:rounded-2xl"
+        class="p-5 lg:px-6 bg-primary flex items-center justify-between w-full rounded-lg lg:rounded-2xl"
       >
         <h1 class="text-white text-xs flex flex-col gap-1">
           My balance <span class="font-bold text-xl"> $921.48 </span>
@@ -30,7 +30,7 @@
         </svg>
       </header>
       <section
-        class="p-5 bg-neutral flex flex-col gap-5 w-full rounded-lg lg:rounded-2xl"
+        class="p-5 lg:p-6 bg-neutral flex flex-col gap-5 lg:gap-6 w-full rounded-lg lg:rounded-2xl"
       >
         <header>
           <h2 class="font-bold text-xl">Spending - Last 7 days</h2>
@@ -51,14 +51,19 @@
           </p>
         </footer>
       </section>
-      <footer class="text-center">
+      <footer class="text-center text-xs">
         Challenge by
         <a
           target="_blank"
-          class="text-primary hover:underline focus:underline"
+          class="text-primary hover:underline focus:underline text-xs"
           href="https://www.frontendmentor.io/challenges/expenses-chart-component-e7yJBUdjwt/"
           >Frontend Mentor</a
-        >. Coded by <a class="" href="https://oikashan.com">Kashan</a>.
+        >. Coded by
+        <a
+          class="text-xs font-bold text-secondary relative before:h-1 before:w-full before:scale-x-0 before:bg-primary before:inline-block before:absolute before:bottom-0 before:left-0 before:opacity-40 before:rounded-sm hover:before:scale-x-100 focus:before:scale-x-100 before:transition-all before:duration-300"
+          href="https://oikashan.com"
+          >Kashan</a
+        >.
       </footer>
     </main>
     <script type="module" src="/src/main.tsx"></script>

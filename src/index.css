@@ -23,7 +23,7 @@
   /* Transaction Bar */
   .bar::before {
     content: "";
-    @apply bg-primary rounded-sm lg:rounded-md inline-block w-full h-[var(--height)] transition-all duration-200;
+    @apply bg-primary rounded-sm lg:rounded-md inline-block w-full h-[var(--height)] transition-all duration-500;
   }
 
   .transaction:is(:hover, :focus) .bar::before {

@@ -1,42 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-
-type Transaction = {
-  day: string;
-  amount: number;
-};
-
-function TransactionComponent({
-  day,
-  amount,
-  percentage,
-}: Transaction & {
-  percentage: number;
-}) {
-  return (
-    <button
-      aria-label="Transacted Amount Per Day"
-      className="transaction relative inline-flex flex-col gap-2 items-center justify-end w-full mt-6"
-    >
-      {/* Amount */}
-      <span className="sr-only">${amount}</span>
-      {/* Bar */}
-      <span
-        aria-hidden="true"
-        data-amount={`$${amount}`}
-        className={`bar relative w-full h-36 md:h-28 flex flex-col justify-end ${
-          percentage >= 99.99 ? "bar-largest" : ""
-        }`}
-        style={{
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          "--height": `${percentage}%`,
-        }}
-      ></span>
-      {/* Day */}
-      <span className="w-full text-gray-500 text-[.65rem]">{day}</span>
-    </button>
-  );
-}
+import { Transaction, TransactionComponent } from "./TransactionComponent";
+import { TransactionSkeletonComponent } from "./TransactionSkeletonComponent";
 
 function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -67,7 +31,7 @@ function App() {
   }, []);
 
   return transactions.length == 0 ? (
-    "Loading"
+    <TransactionSkeletonComponent bars={7} />
   ) : (
     <div
       aria-label="Transactions List"
