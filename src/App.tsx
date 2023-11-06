@@ -12,23 +12,27 @@ function TransactionComponent({
 }: Transaction & {
   percentage: number;
 }) {
-  const isLargest = percentage >= 99.99;
-
   return (
     <button
-      style={{
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        "--height": `${percentage}%`,
-      }}
       aria-label="Transacted Amount Per Day"
-      className={`transaction relative inline-flex flex-col gap-2 items-center justify-end w-full h-40 ${
-        isLargest ? "transaction-largest" : ""
-      }`}
+      className="transaction relative inline-flex flex-col gap-2 items-center justify-end w-full mt-6"
     >
-      <span className="p-1 bg-black/80 rounded-sm text-white text-[.65rem] absolute left-1/2 -translate-x-1/2 bottom-[calc(1.75rem+var(--height))]">
-        ${amount}
-      </span>
+      {/* Amount */}
+      <span className="sr-only">${amount}</span>
+      {/* Bar */}
+      <span
+        aria-hidden="true"
+        data-amount={`$${amount}`}
+        className={`bar relative w-full h-36 md:h-28 flex flex-col justify-end ${
+          percentage >= 99.99 ? "bar-largest" : ""
+        }`}
+        style={{
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          "--height": `${percentage}%`,
+        }}
+      ></span>
+      {/* Day */}
       <span className="w-full text-gray-500 text-[.65rem]">{day}</span>
     </button>
   );

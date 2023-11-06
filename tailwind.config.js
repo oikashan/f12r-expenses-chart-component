@@ -7,7 +7,7 @@ export default {
     },
     extend: {
       maxWidth: {
-        mobile: "375px",
+        mobile: "435px",
         desktop: "1440px",
       },
       colors: {

@@ -9,76 +9,28 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  .fade-in {
-    animation: fade-in 1s forwards ease-out;
-  }
-
-  .slide-in {
-    animation: slide-in 1s forwards ease-out;
-  }
-
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes slide-in {
-    from {
-      transform: translateY(1rem);
-    }
-    to {
-      transform: translateY(0);
-    }
-  }
-}
-
 @layer components {
-  .logo circle {
-    animation: logo 1s ease-in-out forwards;
+  /* Transaction Amount */
+  .bar::after {
+    content: attr(data-amount);
+    @apply p-1 lg:px-2 bg-black/80 rounded-sm lg:rounded-md text-white text-[.65rem] lg:text-xs absolute left-1/2 -translate-x-1/2 bottom-[calc(.5rem+var(--height))] opacity-0 transition-opacity duration-200;
   }
 
-  .logo circle:first-child {
-    animation-name: logo-first;
-  }
-
-  .logo circle:last-child {
-    animation-name: logo-last;
-  }
-
-  @keyframes logo-first {
-    from {
-      transform: translateX(-0.65rem);
-    }
-    to {
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes logo-last {
-    from {
-      transform: translateX(0.65rem);
-    }
-    to {
-      transform: translateX(0);
-    }
+  .transaction:is(:hover, :focus) .bar::after {
+    @apply opacity-100;
   }
 
   /* Transaction Bar */
-  .transaction::before {
+  .bar::before {
     content: "";
-    @apply bg-primary rounded-sm inline-block w-full h-[var(--height)] transition-all duration-200;
+    @apply bg-primary rounded-sm lg:rounded-md inline-block w-full h-[var(--height)] transition-all duration-200;
   }
 
-  .transaction:is(:hover, :focus)::before {
-    @apply opacity-80;
+  .transaction:is(:hover, :focus) .bar::before {
+    @apply opacity-60;
   }
 
-  .transaction.transaction-largest::before {
+  .bar.bar-largest::before {
     @apply bg-secondary;
   }
 }

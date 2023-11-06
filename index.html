@@ -11,7 +11,7 @@
       class="flex flex-col items-center justify-center min-h-screen gap-4 max-w-mobile"
     >
       <header
-        class="p-5 bg-primary flex items-center justify-between w-full rounded-lg fade-in"
+        class="p-5 bg-primary flex items-center justify-between w-full rounded-lg lg:rounded-2xl"
       >
         <h1 class="text-white text-xs flex flex-col gap-1">
           My balance <span class="font-bold text-xl"> $921.48 </span>
@@ -29,7 +29,9 @@
           </g>
         </svg>
       </header>
-      <section class="p-5 bg-neutral flex flex-col gap-5 w-full rounded-lg">
+      <section
+        class="p-5 bg-neutral flex flex-col gap-5 w-full rounded-lg lg:rounded-2xl"
+      >
         <header>
           <h2 class="font-bold text-xl">Spending - Last 7 days</h2>
         </header>
@@ -39,7 +41,9 @@
         >
           <p class="flex flex-col gap-1 text-gray-500 text-xs">
             Total this month
-            <span class="text-black font-bold text-2xl"> $478.33 </span>
+            <span class="text-black font-bold text-2xl lg:text-4xl">
+              $478.33
+            </span>
           </p>
           <p class="flex flex-col text-gray-500 text-xs items-end">
             <span class="text-black font-bold text-xs">+2.4%</span> from last
