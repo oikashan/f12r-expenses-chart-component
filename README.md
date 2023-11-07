@@ -27,8 +27,8 @@ Users should be able to:
 - See hover states for all interactive elements on the page
 - **Bonus**: Use the JSON data file provided to dynamically size the bars on the chart
 
-![Screenshot of the challenge](./design/mobile-design.jpg)
-![Screenshot of the challenge](./design/desktop-design.jpg)
+![Screenshot of the challenge](./public/design/mobile-design.jpg)
+![Screenshot of the challenge](./public/design/desktop-design.jpg)
 
 ### Solutions
 
