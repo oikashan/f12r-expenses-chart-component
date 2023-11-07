@@ -1,5 +1,3 @@
-import { useEffect, useRef } from "react";
-
 export type Transaction = {
   day: string;
   amount: number;
@@ -12,19 +10,6 @@ export function TransactionComponent({
 }: Transaction & {
   percentage: number;
 }) {
-  const barRef = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    if (!barRef.current) return;
-
-    const barHeightTimeout = setTimeout(() => {
-      // After 250ms, set the height of the bar to the percentage.
-      barRef.current?.style.setProperty("--height", `${percentage}%`);
-    }, 250);
-
-    return () => clearTimeout(barHeightTimeout);
-  }, [percentage]);
-
   return (
     <button
       aria-readonly="true"
@@ -37,7 +22,6 @@ export function TransactionComponent({
       </span>
       {/* Bar */}
       <span
-        ref={barRef}
         aria-hidden="true"
         data-amount={`$${amount}`}
         className={`bar relative w-full h-36 md:h-28 flex flex-col justify-end ${

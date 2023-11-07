@@ -4,7 +4,7 @@ export function TransactionSkeletonComponent({ bars }: { bars: number }) {
       <div role="alert" className="sr-only">
         Loading Transactions...
       </div>
-      <div aria-hidden="true" className="h-40 md:h-36 flex gap-3 items-end">
+      <div aria-hidden="true" className="h-44 md:h-40 flex gap-3 items-end">
         {Array.from({ length: bars }).map((_, i) => (
           <div
             key={i}

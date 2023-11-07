@@ -13,7 +13,7 @@
   /* Transaction Amount */
   .bar::after {
     content: attr(data-amount);
-    @apply p-1 lg:px-2 bg-black/80 rounded-sm lg:rounded-md text-white text-[.65rem] lg:text-xs absolute left-1/2 -translate-x-1/2 bottom-[calc(.5rem+var(--height))] opacity-0 transition-opacity duration-200;
+    @apply p-1 md:px-2 bg-black/80 rounded-sm md:rounded-md text-white text-[.65rem] md:text-xs absolute left-1/2 -translate-x-1/2 bottom-[calc(.5rem+var(--height))] opacity-0 transition-opacity duration-200;
   }
 
   .transaction:is(:hover, :focus) .bar::after {
@@ -23,7 +23,7 @@
   /* Transaction Bar */
   .bar::before {
     content: "";
-    @apply bg-primary rounded-sm lg:rounded-md inline-block w-full h-[var(--height)] transition-all duration-500;
+    @apply bg-primary rounded-sm md:rounded-md inline-block w-full h-[var(--height)] transition-all duration-500;
   }
 
   .transaction:is(:hover, :focus) .bar::before {

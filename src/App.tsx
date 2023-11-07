@@ -1,6 +1,9 @@
+import gsap from "gsap";
+import { animate } from "./animate";
 import { useEffect, useMemo, useState } from "react";
 import { Transaction, TransactionComponent } from "./TransactionComponent";
 import { TransactionSkeletonComponent } from "./TransactionSkeletonComponent";
+import { animateBars } from "./animateBars";
 
 function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -20,6 +23,22 @@ function App() {
     return amounts.map((amount) => (amount / max) * 100);
   }, [transactions]);
 
+  /**
+   * Animations effect.
+   */
+  useEffect(() => {
+    const tl = gsap.timeline();
+
+    animate(tl);
+
+    return () => {
+      tl.kill();
+    };
+  }, []);
+
+  /**
+   * Fetch transactions effect.
+   */
   useEffect(() => {
     setTimeout(() => {
       (async function () {
@@ -30,6 +49,14 @@ function App() {
     }, 3000);
   }, []);
 
+  useEffect(() => {
+    if (percentages.length == 0) return;
+
+    console.log(percentages);
+
+    animateBars(gsap.timeline(), percentages);
+  }, [percentages]);
+
   return transactions.length == 0 ? (
     <TransactionSkeletonComponent bars={7} />
   ) : (
@@ -38,7 +65,11 @@ function App() {
       className="flex items-end w-full max-w-full gap-3"
     >
       {transactions.map((transaction, i) => (
-        <TransactionComponent {...transaction} percentage={percentages[i]} />
+        <TransactionComponent
+          key={i}
+          {...transaction}
+          percentage={percentages[i]}
+        />
       ))}
     </div>
   );
