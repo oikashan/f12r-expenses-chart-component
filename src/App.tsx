@@ -49,12 +49,19 @@ function App() {
     }, 3000);
   }, []);
 
+  /**
+   * Bars animation effect.
+   */
   useEffect(() => {
     if (percentages.length == 0) return;
 
-    console.log(percentages);
+    const tl = gsap.timeline();
 
-    animateBars(gsap.timeline(), percentages);
+    animateBars(tl, percentages);
+
+    return () => {
+      tl.kill();
+    };
   }, [percentages]);
 
   return transactions.length == 0 ? (

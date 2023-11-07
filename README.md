@@ -1,97 +1,288 @@
-# Frontend Mentor - Expenses chart component
+# Frontend Mentor - Expenses chart component solution by [Kashan](https://oikashan.com) - Accessible and Animated
 
-![Design preview for the Expenses chart component coding challenge](./design/desktop-preview.jpg)
+## (React + Tailwind version)
 
-## Welcome! 👋
+## Table of contents
 
-Thanks for checking out this front-end coding challenge.
+- [Overview](#overview)
+  - [The challenge](#the-challenge)
+  - [Solutions](#solutions)
+- [My process](#my-process)
+  - [Built with](#built-with)
+  - [What I learned](#what-i-learned)
+  - [Continued development](#continued-development)
+  - [Useful resources](#useful-resources)
+- [Author](#author)
+- [Acknowledgments](#acknowledgments)
 
-[Frontend Mentor](https://www.frontendmentor.io) challenges help you improve your coding skills by building realistic projects.
+## Overview
 
-**To do this challenge, you need a decent understanding of HTML, CSS and JavaScript.**
+### The challenge
 
-## The challenge
-
-Your challenge is to build out this bar chart component and get it looking as close to the design as possible.
-
-You can use any tools you like to help you complete the challenge. So if you've got something you'd like to practice, feel free to give it a go.
-
-We provide the data for the chart in a local `data.json` file. So you can use that to dynamically add the bars if you choose.
-
-Your users should be able to:
+Users should be able to:
 
 - View the bar chart and hover over the individual bars to see the correct amounts for each day
-- See the current day's bar highlighted in a different colour to the other bars
-- View the optimal layout for the content depending on their device's screen size
+- See the current day’s bar highlighted in a different colour to the other bars
+- View the optimal layout for the content depending on their device’s screen size
 - See hover states for all interactive elements on the page
-- **Bonus**: See dynamically generated bars based on the data provided in the local JSON file
+- **Bonus**: Use the JSON data file provided to dynamically size the bars on the chart
 
-Want some support on the challenge? [Join our community](https://www.frontendmentor.io/community) and ask questions in the **#help** channel.
+![Screenshot of the challenge](./design/mobile-design.jpg)
+![Screenshot of the challenge](./design/desktop-design.jpg)
 
-## Where to find everything
+### Solutions
 
-Your task is to build out the project to the designs inside the `/design` folder. You will find both a mobile and a desktop version of the design. 
+- Live site: [Click here ↗](https://f12r-expenses-chart-component-react-tailwind.pages.dev)
+- Source code: [Click here ↗](https://github.com/oikashan/f12r-expenses-chart-component/tree/react-tailwind)
 
-The designs are in JPG static format. Using JPGs will mean that you'll need to use your best judgment for styles such as `font-size`, `padding` and `margin`. 
+## My process
 
-If you would like the design files (we provide Sketch & Figma versions) to inspect the design in more detail, you can [subscribe as a PRO member](https://www.frontendmentor.io/pro).
+### Built with
 
-You will find all the required assets in the `/images` folder. The assets are already optimized.
+- Semantic HTML5 markup
+- Flexbox (Loads of it)
+- Mobile-first workflow
+- CSS Grid (place-items: center; rocks)
+- [React](https://reactjs.org/) (For the chart and chart loader)
+- [Tailwind](https://tailwindcss.com/) - Styled the whole thing within 20 minutes
+- [Gsap](https://greensock.com/gsap/) - For the animations, cuz they look good ✨
 
-There is also a `style-guide.md` file containing the information you'll need, such as color palette and fonts.
+### What I learned
 
-## Building your project
+- You do not need a chart library to make a chart (for a chart this simple).
+- You can use `useEffect` to animate the chart on load.
+- You can maintain a11y by using `aria-hidden` and CSS pseudo elements.
+- React is great for JS-based animations since your app is already in JS.
 
-Feel free to use any workflow that you feel comfortable with. Below is a suggested process, but do not feel like you need to follow these steps:
+Here's the markup for the chart itself, really accessible and easy to understand:
 
-1. Initialize your project as a public repository on [GitHub](https://github.com/). Creating a repo will make it easier to share your code with the community if you need help. If you're not sure how to do this, [have a read-through of this Try Git resource](https://try.github.io/).
-2. Configure your repository to publish your code to a web address. This will also be useful if you need some help during a challenge as you can share the URL for your project with your repo URL. There are a number of ways to do this, and we provide some recommendations below.
-3. Look through the designs to start planning out how you'll tackle the project. This step is crucial to help you think ahead for CSS classes to create reusable styles.
-4. Before adding any styles, structure your content with HTML. Writing your HTML first can help focus your attention on creating well-structured content.
-5. Write out the base styles for your project, including general content styles, such as `font-family` and `font-size`.
-6. Start adding styles to the top of the page and work down. Only move on to the next section once you're happy you've completed the area you're working on.
+```jsx
+<div
+  aria-label="Transactions List"
+  className="flex items-end w-full max-w-full gap-3"
+>
+  {transactions.map((transaction, i) => (
+    <TransactionComponent
+      key={i}
+      {...transaction}
+      percentage={percentages[i]}
+    />
+  ))}
+</div>
+```
 
-## Deploying your project
+and here's the markup for the bars. The bars themselves are buttons (read-only) since they have tooltips and hover doesn't work on mobile.
 
-As mentioned above, there are many ways to host your project for free. Our recommended hosts are:
+```jsx
+<button
+  aria-readonly="true"
+  aria-label="Transacted Amount Per Day"
+  className="transaction relative inline-flex flex-col gap-2 items-center justify-end w-full mt-6"
+>
+  {/* Amount */}
+  {/* The reason why this is screenreader-only is cuz the one we see on 
+  screen is an ::after pseudo element, not that accessible that guy. */}
+  <span aria-label="Amount" className="sr-only">
+    ${amount}
+  </span>
+  {/* Bar */}
+  {/* Really tried not using an actual element for the bar but can't help.
+  aria-hidden solves the screenreader issue, .bar::before is the bar itself. */}
+  <span
+    aria-hidden="true"
+    data-amount={`$${amount}`}
+    className={`bar relative w-full h-36 md:h-28 flex flex-col justify-end ${
+      percentage == 100 ? "bar-largest" : ""
+    }`}
+    style={{
+      // Initially, the height is 5% so it animates later in.
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      "--height": `5%`,
+    }}
+  ></span>
+  {/* Day */}
+  <span aria-label="Day" className="w-full text-gray-500 text-[.65rem]">
+    {day}
+  </span>
+</button>
+```
 
-- [GitHub Pages](https://pages.github.com/)
-- [Vercel](https://vercel.com/)
-- [Netlify](https://www.netlify.com/)
+Lemme show you how the bar is styled:
 
-You can host your site using one of these solutions or any of our other trusted providers. [Read more about our recommended and trusted hosts](https://medium.com/frontend-mentor/frontend-mentor-trusted-hosting-providers-bf000dfebe).
+```css
+/* Transaction Bar */
+.bar::before {
+  content: "";
+  @apply bg-primary rounded-sm md:rounded-md inline-block w-full h-[var(--height)] transition-all duration-500;
+}
 
-## Create a custom `README.md`
+.transaction:is(:hover, :focus) .bar::before {
+  @apply opacity-60;
+}
 
-We strongly recommend overwriting this `README.md` with a custom one. We've provided a template inside the [`README-template.md`](./README-template.md) file in this starter code.
+.bar.bar-largest::before {
+  @apply bg-secondary;
+}
+```
 
-The template provides a guide for what to add. A custom `README` will help you explain your project and reflect on your learnings. Please feel free to edit our template as much as you like.
+Super simple and easy to understand. I love Tailwind. 💙 Also, the reason why I'm using the `@apply` directive is because you write wayyy less CSS plus you always stay in touch with your theme.
 
-Once you've added your information to the template, delete this file and rename the `README-template.md` file to `README.md`. That will make it show up as your repository's README file.
+One more thing, the loader. There's a simple skeleton loader for the chart and it's made with Tailwind's `animate-pulse` class. The animation is done with Gsap.
 
-## Submitting your solution
+```jsx
+export function TransactionSkeletonComponent({ bars }: { bars: number }) {
+  return (
+    <>
+      <div role="alert" className="sr-only">
+        Loading Transactions...
+      </div>
+      <div aria-hidden="true" className="h-44 md:h-40 flex gap-3 items-end">
+        {Array.from({ length: bars }).map((_, i) => (
+          <div
+            key={i}
+            style={{
+              height: `${Math.floor(Math.random() * 100)}%`,
+            }}
+            className="w-1/4 bg-gray-300 rounded-md animate-pulse"
+          ></div>
+        ))}
+      </div>
+    </>
+  );
+}
+```
 
-Submit your solution on the platform for the rest of the community to see. Follow our ["Complete guide to submitting solutions"](https://medium.com/frontend-mentor/a-complete-guide-to-submitting-solutions-on-frontend-mentor-ac6384162248) for tips on how to do this.
+Notice the alert role, it's important to let the user know that the chart is loading. Also, the `aria-hidden` attribute is important to hide the skeleton from screenreaders.
 
-Remember, if you're looking for feedback on your solution, be sure to ask questions when submitting it. The more specific and detailed you are with your questions, the higher the chance you'll get valuable feedback from the community.
+Now, lemme show you the little maths I did to calculate percentages based on the fetched transactions. Transactions is already a state so percentages directly get calculated upon each render:
 
-## Sharing your solution
+```ts
+const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-There are multiple places you can share your solution:
+/**
+ * The percentage of each transaction based on the largest.
+ */
+const percentages = useMemo(() => {
+  // Get the amounts from the transactions.
+  const amounts = transactions.map((transaction) => transaction.amount);
 
-1. Share your solution page in the **#finished-projects** channel of the [community](https://www.frontendmentor.io/community). 
-2. Tweet [@frontendmentor](https://twitter.com/frontendmentor) and mention **@frontendmentor**, including the repo and live URLs in the tweet. We'd love to take a look at what you've built and help share it around.
-3. Share your solution on other social channels like LinkedIn.
-4. Blog about your experience building your project. Writing about your workflow, technical choices, and talking through your code is a brilliant way to reinforce what you've learned. Great platforms to write on are [dev.to](https://dev.to/), [Hashnode](https://hashnode.com/), and [CodeNewbie](https://community.codenewbie.org/).
+  // Get the max amount.
+  const max = Math.max(...amounts);
 
-We provide templates to help you share your solution once you've submitted it on the platform. Please do edit them and include specific questions when you're looking for feedback. 
+  // Using the max amount as the base, get the percentage of each amount.
+  // This will be used to set the height of each transaction.
+  return amounts.map((amount) => (amount / max) * 100);
+}, [transactions]);
+```
 
-The more specific you are with your questions the more likely it is that another member of the community will give you feedback.
+Since I'm fetching the transactions from a local JSON file, there was no need to use Zod or any other validation library, a simple fetch was enough:
 
-## Got feedback for us?
+```ts
+/**
+ * Fetch transactions effect.
+ */
+useEffect(() => {
+  // A 3-second delay just to have a nice loading animation.
+  setTimeout(() => {
+    (async function () {
+      setTransactions(
+        await fetch("/transactions.json").then((res) => res.json())
+      );
+    })();
+  }, 3000);
+}, []);
+```
 
-We love receiving feedback! We're always looking to improve our challenges and our platform. So if you have anything you'd like to mention, please email hi[at]frontendmentor[dot]io.
+And as soon as percentages are calculated, I animate the bars in, since by now the bars are already on the screen:
 
-This challenge is completely free. Please share it with anyone who will find it useful for practice.
+```ts
+/**
+ * Bars animation effect.
+ */
+useEffect(() => {
+  if (percentages.length == 0) return;
 
-**Have fun building!** 🚀
+  const tl = gsap.timeline();
+
+  animateBars(tl, percentages);
+
+  return () => {
+    tl.kill()
+  }
+}, [percentages]);
+```
+
+Now, lemme show you these animate functions, really simple GSAP stuff.
+
+```ts
+export function animate(tl: gsap.core.Timeline) {
+  // Animate everything in
+  tl.fromTo(
+    [
+      "article > *",
+      "h1",
+      "svg",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "div",
+      "p",
+      "button",
+    ],
+    {
+      y: 20,
+      opacity: 0,
+    },
+    {
+      y: 0,
+      opacity: 1,
+      stagger: 0.1,
+      duration: 0.5,
+    }
+  );
+```
+
+And also the bars:
+
+```ts
+export function animateBars(tl: gsap.core.Timeline, percentages: number[]) {
+  percentages.forEach((percentage, i) => {
+    tl.fromTo(
+      `.transaction:nth-child(${i + 1}) .bar`,
+      {
+        "--height": "5%",
+      },
+      {
+        // .bar::before uses this height property
+        "--height": `${percentage}%`,
+        duration: 0.25,
+        ease: "power1.out",
+      },
+      "<"
+    );
+  });
+}
+```
+
+This whole thing without the animations took me about 40 minutes and adding the animations took me 20, writing this markdown took me an hour so documentation > coding 😂
+
+### Continued development
+
+I'd be working on this project with other technologies and libraries. Will be using it as a learning point for other libraries and frameworks.
+
+### Useful resources
+
+- [ChatGPT](https://chat.openai.com) - I mean c'mon man.
+
+## Author
+
+- Twitter - [@oikashan](https://www.twitter.com/oikashan)
+- Website - [oikashan.com](https://oikashan.com)
+- Frontend Mentor - [@oikashan](https://www.frontendmentor.io/profile/kashan-ahmad)
+
+## Acknowledgments
+
+You read this far? You're awesome. Here's a moon for you 🌚 Btw, know someone who's looking for a Web and/or App Developer and/or Designer? Send 'em [my way](mailto://hi@oikashan.com) 🚀
